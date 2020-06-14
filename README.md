@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/Notesy/pull/8)
+- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/1)
 
 ### module 
 - ``events``
