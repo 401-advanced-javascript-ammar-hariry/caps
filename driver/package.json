@@ -1,0 +1,14 @@
+{
+    "name": "driver",
+    "version": "1.0.0",
+    "description": "",
+    "main": "driver.js",
+    "scripts": {
+        "test": "jest --coverage --verbose",
+        "lint": "eslint '**/*.js'",
+        "fix-lint": "eslint '**/*.js' --fix"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

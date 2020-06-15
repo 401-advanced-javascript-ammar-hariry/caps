@@ -8,9 +8,9 @@
 
 - [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/1)
 
-### module 
-- ``events``
-- ``events.js``
+
+### modules
+- ``caps.js``
 - ``vendor.js``
 - ``driver.js``
 
@@ -19,20 +19,22 @@
 - ``faker``
 - ``eslint``
 - ``jest``
+- ``net``
 
 
 
 #### How to initialize/run your application (where applicable)
 
-- ``node caps.js`` will run the events every 5 sec.
+- ``node caps.js`` will run the server
+- ``node vendor.js`` will connect to the server and send the order data to the server and console delevired up message
+- ``node driver.js`` will connect to the server and console picked up message
 
 
 #### How to use your library (where applicable)
 
 #### Tests
-- ``npm run test``
 - ``npm run lint``
 
 #### UML
 
-![UML DIAGRAM](https://i.ibb.co/166JXBz/caps-uml.png)
+![UML DIAGRAM](https://i.ibb.co/zr65czZ/caps2-uml.png)

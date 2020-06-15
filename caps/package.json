@@ -1,0 +1,15 @@
+{
+    "name": "caps",
+    "version": "1.0.0",
+    "description": "",
+    "main": "caps.js",
+    "scripts": {
+        "test": "jest --coverage --verbose",
+        "lint": "eslint '**/*.js'",
+        "fix-lint": "eslint '**/*.js' --fix"
+
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}
