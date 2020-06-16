@@ -15,26 +15,26 @@ client.connect(PORT, HOST, () => console.log(`vendor is connected`));
 
 const oreders = [];
 
-client.on('data', function(data) {
-    let eventObj = JSON.parse(data);
-    if (eventObj.EVENT === "delivered") {
-        console.clear();
-        oreders.push(eventObj.payload);
+client.on('data', dataHandler);
 
-        oreders.forEach(msg => console.log(`thank you for delivering ${eventObj.orderID}`));
+function dataHandler(buffer) {
+    let raw = buffer.toString().trim();
+    let message = JSON.parse(raw);
+    let { event, payload } = message;
+    if (event === 'pickup') {
+        console.log(` Thank you for deliverd ${payload.orderID}`);
     }
-    console.log()
+}
 
-});
-
-setInterval(function sendMessage(text) {
+setInterval(function sendMessage() {
     var obl = {
         store: 'Ammar store',
         orderID: faker.random.uuid(),
         customer: faker.name.findName(),
         address: `${faker.address.city()} , ${faker.address.stateAbbr()}`,
     }
-    let event = JSON.stringify(obl);
+    let message = { event: 'pickup', payload: obl };
+    let event = JSON.stringify(message);
     client.write(event);
 }, 5000);
 
