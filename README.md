@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/1)
+- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/3)
 
 
 ### modules
