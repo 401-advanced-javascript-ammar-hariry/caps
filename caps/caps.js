@@ -14,36 +14,36 @@ server.listen(PORT, () => console.log(`Server is up on ${PORT}`));
 
 server.on('connection', (socket) => {
 
-    const id = `Socket-${Math.random()}`;
-    console.log(`client with ID : ${id} is connected!!! `);
+  const id = `Socket-${Math.random()}`;
+  console.log(`client with ID : ${id} is connected!!! `);
 
-    socketPool[id] = socket;
+  socketPool[id] = socket;
 
-    socket.on('data', (buffer) => dispatchEvent(buffer));
-    socket.on('error', (e) => console.log('SOCKET ERR', e));
-    socket.on('end', (end) => console.log('connection ended', end));
+  socket.on('data', (buffer) => dispatchEvent(buffer));
+  socket.on('error', (e) => console.log('SOCKET ERR', e));
+  socket.on('end', (end) => console.log('connection ended', end));
 });
 
 server.on('error', (e) => {
-    console.log('SERVER ERROR', e);
+  console.log('SERVER ERROR', e);
 });
 
 let aloowEvent = ['in-transit', 'pickup', 'delivered'];
 
 function dispatchEvent(buffer) {
 
-    var time = new Date();
-    let raw = buffer.toString().trim();
-    let message = JSON.parse(raw);
-    let { event, payload } = message;
-    if (aloowEvent.includes(event)) {
-        console.log(`EVENT: ${event} `, { payload, time });
-        for (let socket in socketPool) {
-            socketPool[socket].write(raw);
-        }
-
-    } else {
-        console.log('IGNOR', event);
-
+  var time = new Date();
+  let raw = buffer.toString().trim();
+  let message = JSON.parse(raw);
+  let { event, payload } = message;
+  if (aloowEvent.includes(event)) {
+    console.log(`EVENT: ${event} `, { payload, time });
+    for (let socket in socketPool) {
+      socketPool[socket].write(raw);
     }
+
+  } else {
+    console.log('IGNOR', event);
+
+  }
 }
