@@ -1,49 +1,36 @@
 'use strict';
 
-require('dotenv').config();
+const io = require('socket.io')(3000);
 
-const net = require('net');
-const server = net.createServer();
-
-
-const PORT = process.env.PORT || 3000;
-
-let socketPool = {};
-
-server.listen(PORT, () => console.log(`Server is up on ${PORT}`));
-
-server.on('connection', (socket) => {
-
-  const id = `Socket-${Math.random()}`;
-  console.log(`client with ID : ${id} is connected!!! `);
-
-  socketPool[id] = socket;
-
-  socket.on('data', (buffer) => dispatchEvent(buffer));
-  socket.on('error', (e) => console.log('SOCKET ERR', e));
-  socket.on('end', (end) => console.log('connection ended', end));
+io.on('connection', (socket) => {
+  console.log(`CONNECTED ${socket.id}`);
 });
 
-server.on('error', (e) => {
-  console.log('SERVER ERROR', e);
+const caps = io.of('/caps');
+caps.on('connection', (socket) => {
+  console.log('welcome dear customers');
+  console.log(`CONNECTED ${socket.id}`);
+
+  socket.on('join', (room) => {
+    console.log('register as', room);
+    socket.join(room);
+  });
+  socket.on('pickup', (payload) => {
+    render('pickup', payload);
+    caps.emit('pickup', payload);
+  });
+  socket.on('in-transit', (payload) => {
+    render('in-transit', payload);
+    caps.to(payload.store).emit('in-transit', payload);
+  });
+  socket.on('delivered', (payload) => {
+    render('delivered', payload);
+    caps.to(payload.store).emit('delivered', payload);
+  });
 });
 
-let aloowEvent = ['in-transit', 'pickup', 'delivered'];
+function render(event, payload) {
+  let time = new Date();
+  console.log({ event, payload, time });
 
-function dispatchEvent(buffer) {
-
-  var time = new Date();
-  let raw = buffer.toString().trim();
-  let message = JSON.parse(raw);
-  let { event, payload } = message;
-  if (aloowEvent.includes(event)) {
-    console.log(`EVENT: ${event} `, { payload, time });
-    for (let socket in socketPool) {
-      socketPool[socket].write(raw);
-    }
-
-  } else {
-    console.log('IGNOR', event);
-
-  }
 }

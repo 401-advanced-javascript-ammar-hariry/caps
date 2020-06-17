@@ -1,43 +1,24 @@
 'use strict';
 const faker = require('faker');
-// const events = require('../events');
-const net = require('net');
 
-const client = new net.Socket();
+const io = require('socket.io-client');
 
+const vendorSocket = io.connect('http://localhost:3000/caps');
 
+const store = '1-206-flowers'
+vendorSocket.emit('join', store);
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
-
-client.connect(PORT, HOST, () => console.log(`vendor is connected`));
-
-
-const oreders = [];
-
-client.on('data', dataHandler);
-
-function dataHandler(buffer) {
-    let raw = buffer.toString().trim();
-    let message = JSON.parse(raw);
-    let { event, payload } = message;
-    if (event === 'pickup') {
-        console.log(` Thank you for deliverd ${payload.orderID}`);
-    }
-}
+vendorSocket.on('delivered', (payload) => {
+    console.log(`THANK YOU FOR DELIVERING ${payload.orderID}`);
+})
 
 setInterval(function sendMessage() {
     var obl = {
-        store: 'Ammar store',
+        store: store,
         orderID: faker.random.uuid(),
         customer: faker.name.findName(),
         address: `${faker.address.city()} , ${faker.address.stateAbbr()}`,
     }
-    let message = { event: 'pickup', payload: obl };
-    let event = JSON.stringify(message);
-    client.write(event);
-}, 5000);
+    vendorSocket.emit('pickup', obl);
 
-client.on('close', function() {
-    console.log('Connection got closed');
-});
+}, 5000);

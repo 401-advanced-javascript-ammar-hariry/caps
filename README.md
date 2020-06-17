@@ -6,7 +6,7 @@
 
 ### Links and Resources
 
-- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/2)
+- [submission PR](https://github.com/401-advanced-javascript-ammar-hariry/caps/pull/4)
 
 
 ### modules
@@ -19,15 +19,15 @@
 - ``faker``
 - ``eslint``
 - ``jest``
-- ``net``
-
+- ``socket.io``
+- ``socket.io-client``
 
 
 #### How to initialize/run your application (where applicable)
 
-- ``node caps.js`` will run the server
-- ``node vendor.js`` will connect to the server and send the order data to the server and console delevired up message
-- ``node driver.js`` will connect to the server and console picked up message
+- ``node caps.js``   will run the server and connect to namespace and render out the event orders
+- ``node vendor.js`` will connect to the namespace and send the order data to the server and console delevired up message
+- ``node driver.js`` will connect to the namespace and console picked up message
 
 
 #### How to use your library (where applicable)
